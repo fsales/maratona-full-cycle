@@ -1,0 +1,19 @@
+version: "3.7"
+
+services: 
+    keycloak:
+        image: keycloak:11.0.1
+        restart: always
+        build: 
+            context: .
+            dockerfile: keycloak/Dockerfile
+        environment: 
+            TZ: America/Sao_Paulo
+            KEYCLOAK_USER: admin 
+            KEYCLOAK_PASSWORD: admin
+        ports: 
+            - "8080:8080"
+        networks: 
+            - keycloak
+networks: 
+    keycloak:

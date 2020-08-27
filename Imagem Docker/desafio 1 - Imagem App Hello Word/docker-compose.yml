@@ -1,0 +1,18 @@
+version: "3.7"
+
+services: 
+    maratona:
+        image: desafio1:1.0.0
+        restart: always
+        build: 
+            context: .
+            dockerfile: fullcycle/Dockerfile
+        working_dir: /app
+        environment:
+            TZ: America/Sao_Paulo
+        ports: 
+            - "8080:8080"
+        networks: 
+            - maratona-fullcycle
+networks: 
+    maratona-fullcycle:
