@@ -2,7 +2,8 @@ version: "3.7"
 
 services: 
     keycloak:
-        image: keycloak:11.0.1
+        container_name: mfc4-keycloak
+        #image: keycloak:11.0.1
         restart: always
         build: 
             context: .
@@ -11,9 +12,40 @@ services:
             TZ: America/Sao_Paulo
             KEYCLOAK_USER: admin 
             KEYCLOAK_PASSWORD: admin
+            DB_VENDOR: mysql
+            DB_ADDR: db
+            DB_DATABASE: auth
+            DB_USER: root
+            DB_PASSWORD: root
+            DB_PORT: 3306
+            JDBC_PARAMS: 'useSSL=false'
         ports: 
             - "8080:8080"
+        depends_on: 
+            - db
         networks: 
-            - keycloak
+            - mfc4-rede
+
+    db:
+        container_name: mfc4-mysql
+        restart: always
+        tty: true
+        command: [mysqld, --default_authentication_plugin=mysql_native_password, --character-set-server=utf8, --collation-server=utf8_bin, --default-storage-engine=INNODB]
+        build: 
+            context: .
+            dockerfile: bd/Dockerfile
+        environment: 
+            TZ: America/Sao_Paulo
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_USER: root
+            MYSQL_PASSWORD: root
+            MYSQL_DATABASE: auth
+        ports:
+            - "3306:3306"
+        volumes:
+            - ./.docker/dbdata:/var/lib/mysql
+        networks: 
+            - mfc4-rede
 networks: 
-    keycloak:
+    mfc4-rede:
+        driver: bridge
