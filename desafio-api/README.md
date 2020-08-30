@@ -90,4 +90,17 @@ nest generate module categorias
 npm run typeorm entity:create -- -n categoria.models -d src/categorias/models
 ```
 
+## Swagger
+
+```bash
+npm install --save @nestjs/swagger swagger-ui-express
+```
+
+## Swagger
+
+```Class validator
+npm install --save class-validator
+npm install --save class-transformer
+```
+
 
